@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DotNet Demo Web App</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: Arial, sans-serif;
+      }
+      body {
+        margin: 0;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        background: linear-gradient(120deg, #1f2937, #0ea5e9);
+      }
+      .card {
+        width: min(640px, 92vw);
+        background: rgba(255, 255, 255, 0.9);
+        color: #111827;
+        border-radius: 12px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+        padding: 24px;
+      }
+      h1 {
+        margin-top: 0;
+      }
+      code {
+        background: #e5e7eb;
+        padding: 2px 6px;
+        border-radius: 4px;
+      }
+      .status {
+        margin-top: 16px;
+        padding: 12px;
+        border-radius: 8px;
+        background: #f3f4f6;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>DotNet Demo Web App</h1>
+      <p>
+        This is a simple demo page served from
+        <code>wwwroot/index.html</code> using ASP.NET Core.
+      </p>
+      <p>Try API endpoint: <code>/api/health</code></p>
+      <div class="status" id="status">Checking API status...</div>
+    </main>
+    <script>
+      async function loadStatus() {
+        const statusEl = document.getElementById("status");
+        try {
+          const response = await fetch("/api/health");
+          const data = await response.json();
+          statusEl.textContent =
+            "API: " + data.status + " | App: " + data.app + " | Time (UTC): " + data.timestampUtc;
+        } catch (error) {
+          statusEl.textContent = "Could not reach /api/health";
+        }
+      }
+      loadStatus();
+    </script>
+  </body>
+</html>
